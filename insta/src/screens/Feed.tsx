@@ -11,8 +11,8 @@ import {
   View,
 } from 'react-native';
 
-import Header from './Header';
-import Post from './Post';
+import Header from '../components/Header';
+import Post from '../components/Post';
 
 export default class Feed extends React.Component{
     state = {
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   flex:1,
   justifyContent:'center',
   alignItems:'center',
-  backgroundColor:'rgb(207, 210, 211)'
+  backgroundColor:'rgb(218, 218, 218)'
   },
   
 });

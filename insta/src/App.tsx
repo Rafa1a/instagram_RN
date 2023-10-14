@@ -16,7 +16,7 @@ import {
 import MyComponent from './tes'
 import Header from './components/Header';
 import Post from './components/Post';
-import Feed from './components/Feed';
+import Feed from './screens/Feed';
 export default class App extends React.Component{
   
 
