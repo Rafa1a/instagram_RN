@@ -8,6 +8,9 @@ import Addphoto from "../screens/Addphoto";
 import Profile from "../screens/Profile";
 import Login from '../screens/Login'
 import Registro from '../screens/Resgistro'
+import { Dispatch } from "redux";
+import { logout } from "../store/action/users";
+import { connect } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -78,5 +81,16 @@ const MenuNavigator = (props:any) => {
     
   );
 };
-
-export default FeedStack;
+const mapStateProps = ({user}:{user:any}) => {
+  return {
+      email: user.email,
+      name : user.name,
+      loginsaida: user.loginsaida
+  }
+}
+const mapDispatchProps = (dispatch:Dispatch) => {
+  return {
+    onLogin : () => dispatch(logout())
+  }
+}
+export default FeedStack

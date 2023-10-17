@@ -1,7 +1,8 @@
 import { USER_LOGGED_IN, USER_LOGGED_OUT } from "./actionTypes";
 interface users {
     name :string,
-    email:string
+    email:string,
+    
 }
 export const login = (user:users) => {
     return {
@@ -11,6 +12,7 @@ export const login = (user:users) => {
 }
 export const logout = () => {
     return {
-        type: USER_LOGGED_OUT
+        type: USER_LOGGED_OUT,
+        
     }
 }

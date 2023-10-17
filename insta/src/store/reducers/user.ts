@@ -23,7 +23,8 @@ const reducer = (state = initialState, action:actions) => {
             return {
                 ...state,
                 name : '',
-                email:''
+                email:'',
+                
             }
         default : 
             return state

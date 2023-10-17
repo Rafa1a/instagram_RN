@@ -11,20 +11,28 @@ import {
   View,
 } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
-
-
+import { connect } from 'react-redux';
+import { login } from '../store/action/users';
+import { Dispatch } from 'redux';
+///////////////////////////////////////////////////////////////////
 interface ProfileProps {
   Profile_Login:(Profile_Login: boolean) => void;
+  onLogin: (user: any) => void;
   loginsaida?: Boolean;
   navigation: NavigationProp<any,any>;
 }
-export default class App extends React.Component<ProfileProps>{
+////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////
+ class Login extends React.Component<ProfileProps>{
   state={
+    name:'Temporario',
     email:'',
     password:''
   }
   login = () => {
     // this.props.navigation.navigate('Profile')
+    this.props.onLogin({...this.state})
     this.props.Profile_Login(true);
   }
   Registro = () => {
@@ -47,7 +55,7 @@ export default class App extends React.Component<ProfileProps>{
     </SafeAreaView>
   );}
 }
-
+//////////////////////////////////////////////////////////
 const styles = StyleSheet.create({
   container: {
    flex:1,
@@ -73,4 +81,10 @@ const styles = StyleSheet.create({
     borderColor:'#333'
   },
 });
-
+const mapDispatchProps = (dispatch:Dispatch) => {
+  return {
+    onLogin : (user:any) => dispatch(login(user))
+  }
+}
+///////////////////////////////////////////////
+export default connect(null, mapDispatchProps)(Login)
