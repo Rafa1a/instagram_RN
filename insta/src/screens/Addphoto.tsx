@@ -18,10 +18,10 @@ import {launchCamera, launchImageLibrary, ImageLibraryOptions,Asset} from 'react
 
 export default class Addphoto extends React.Component{
     state = {
-        image:{},
+        image:require('../assets/imgs/suaimagem.jpg'),
         comment:''
     }
-
+   
     pickImage = async () => {
 
         await launchImageLibrary({
@@ -45,14 +45,26 @@ export default class Addphoto extends React.Component{
             quality:1,
             
         }, res => {
-            console.warn(res)
+            
             if ( !res.didCancel && res.assets ) {
-                console.warn('rafa')
+                
                 const selectedAsset = res.assets[0] as Asset;
-                console.warn(selectedAsset)
+                
                 this.setState({ image: { uri: selectedAsset.uri, base64: selectedAsset.base64 } })
             }
         })
+    }
+  Al = () => {
+      Alert.alert('Escolha', 'Escolha a Origem imagem', [
+        {
+          text:'Arquivo',
+          onPress:this.pickImage
+        },
+        {
+          text:'Camera',
+          onPress:this.pickImagecamera
+        }
+      ])
     }
 
   save = async () => {
@@ -65,7 +77,7 @@ export default class Addphoto extends React.Component{
                 <View style={styles.imagecontainer}>
                     <Image source={this.state.image} style={styles.image}/>
                 </View>
-                <TouchableOpacity onPress={this.pickImage} style={styles.buttom}>
+                <TouchableOpacity onPress={this.Al} style={styles.buttom}>
                     <Text style={styles.buttomtext}>Escolha a photo</Text>
                 </TouchableOpacity>
                 <TextInput placeholder='Algum comentário' style={styles.input} value={this.state.comment}

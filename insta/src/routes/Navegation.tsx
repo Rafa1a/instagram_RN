@@ -1,11 +1,34 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React, {useState} from "react";
+import { createBottomTabNavigator, } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from '@react-navigation/stack';
+
 import { Icon } from "@rneui/themed";
 import Feed from "../screens/Feed";
 import Addphoto from "../screens/Addphoto";
-const Tab = createBottomTabNavigator();
+import Profile from "../screens/Profile";
+import Login from '../screens/Login'
+import Registro from '../screens/Resgistro'
 
-const MenuNavigator = () => {
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const FeedStack = (props:any) => {
+  return (
+    <Stack.Navigator initialRouteName="TabMenu" >
+
+      <Stack.Screen name="TabMenu" component={MenuNavigator} {...props} options={{headerShown:false}}/>
+      
+      <Stack.Screen name="Registro" component={Registro} {...props}/>
+    </Stack.Navigator> 
+  );
+};
+const MenuNavigator = (props:any) => {
+  const [loginsaida, setLoginsaida] = useState(false);
+
+  const Profile_Login = (newValue: boolean) => {
+    setLoginsaida(newValue);
+  };
+
   return (
     <Tab.Navigator
       initialRouteName="Feed"
@@ -21,6 +44,7 @@ const MenuNavigator = () => {
       <Tab.Screen
         name="Feed"
         component={Feed}
+        
         options={{
           title: 'Feed',
           tabBarIcon: ({ color }) => (
@@ -29,7 +53,7 @@ const MenuNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="AddPhoto"
+        name="Camera"
         component={Addphoto}
         options={{
           title: 'Add Picture',
@@ -40,17 +64,19 @@ const MenuNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={Feed}
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => (
-            <Icon name="person-outline" type="ionicon"
-            size={35} color={color}  />
+            <Icon name="person-outline" type="ionicon" size={35} color={color} />
           )
         }}
-      />
+      >
+        {() => loginsaida ? <Profile {...props} Profile_Login={Profile_Login} /> : <Login {...props} Profile_Login={Profile_Login}/>}
+      </Tab.Screen>
+      
     </Tab.Navigator>
+    
   );
 };
 
-export default MenuNavigator;
+export default FeedStack;
