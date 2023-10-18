@@ -16,7 +16,11 @@ import {
 
 import {launchCamera, launchImageLibrary, ImageLibraryOptions,Asset} from 'react-native-image-picker';
 
-export default class Addphoto extends React.Component{
+import { addPost } from '../store/action/posts';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+///////////////////////////////////////////////////////////////////
+ class Addphoto extends React.Component<any>{
     state = {
         image:require('../assets/imgs/suaimagem.jpg'),
         comment:''
@@ -68,7 +72,21 @@ export default class Addphoto extends React.Component{
     }
 
   save = async () => {
-    Alert.alert('Imagem adcionada!', this.state.comment)
+    this.props.onAddPost({
+       id:Math.random(),
+       nickname: this.props.name,
+       email:this.props.email,
+       image: this.state.image,
+       comments: [{
+          nickname: this.props.name,
+          comment : this.state.comment
+       }]
+    })
+    this.setState({
+      image:require('../assets/imgs/suaimagem.jpg'),
+      comment:''
+    })
+    this.props.navigation.navigate('Feed')
   }
     render() {return(
         <ScrollView >
@@ -128,3 +146,17 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = ({user}: {user:any}) => {
+  return{
+    email:user.email,
+    name: user.name
+  }
+}
+
+const mapDispatchToPros  = (dispatch:Dispatch) => {
+  return {
+    onAddPost : (post:any) => dispatch(addPost(post))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToPros)(Addphoto)

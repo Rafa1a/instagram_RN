@@ -10,41 +10,18 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Post from '../components/Post';
-
-export default class Feed extends React.Component{
-    state = {
-        posts: [{
-            id: Math.random(),
-            nickname: 'Rafael Pereira Filho',
-            email:
-            'rafaelprrflh@gmail.com',
-            image: require('../assets/imgs/fence.jpg'),
-        comments: [{
-            nickname: 'John Ray Sheldon',
-            comment: 'Stunning!'
-        }, {
-            nickname: 'Ana Julia Arruda',
-            comment: 'Foto linda! Onde foi tirada?'
-        }]
-       
-        }, {
-        id: Math.random(),
-        nickname: 'Francisco Leandro Lima',
-        email: 'fllima@gmail.com',
-        image: require('../assets/imgs/bw.jpg'),
-        comments: []
-        }]
-    }
+ class Feed extends React.Component<any>{
+    
     
 
   render() {return(
     <SafeAreaView style={styles.container}>
         <Header />
         <FlatList 
-            data={this.state.posts}
+            data={this.props.posts}
             keyExtractor={item => `${item.id}`}
             renderItem={({item}) => 
         <Post key={item.id} {...item}/>}
@@ -63,3 +40,10 @@ const styles = StyleSheet.create({
   
 });
 
+const mapStateToProps = ({posts}: {posts:any}) => {
+  return{
+    posts:posts.posts
+  }
+}
+
+export default connect(mapStateToProps)(Feed)

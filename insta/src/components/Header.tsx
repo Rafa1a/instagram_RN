@@ -22,7 +22,7 @@ interface ProfileProps  {
     ////////////funcao padrao de averiguacao do avatar////////////
     let avatar:any = "https://example.com/"
    
-    if(this.props.email){
+    if(this.props.email || this.props.email===''){
         emailavatar.map((i)=> i.email=== this.props.email? avatar=i.image: avatar)
     }
     ////////////////////////////////////////////////////////
@@ -98,6 +98,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateProps = ({ user }:{user:any}) => {
-
+    return {
+      email: user.email,
+      name: user.name
+    }
 }
-export default Header
+export default connect(mapStateProps)(Header)
+// export default Header
