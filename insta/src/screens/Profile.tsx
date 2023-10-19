@@ -23,14 +23,15 @@ interface ProfileProps  {
     navigation: NavigationProp<any,any>;
     email?:string
     name?:string
+    onLogout?:() => void
 }
 
 ///////////////////////////////
  class Profile extends React.Component<ProfileProps>{
     logout = () => {
-        this.setState({ loginsaida: false }, () => {
-            this.props.navigation.navigate('Feed');
-        });
+        this.props.Profile_Login(false)
+        this.props.navigation.navigate('Feed');
+        if (this.props.onLogout) this.props.onLogout();
     }
     
     
@@ -55,7 +56,7 @@ interface ProfileProps  {
         />
         <Text style={styles.nickname}>{this.props.name}</Text>
         <Text style={styles.email}>{this.props.email}</Text>
-        <TouchableOpacity onPress={() =>this.props.Profile_Login(false)} style={styles.buttom}>
+        <TouchableOpacity onPress={this.logout} style={styles.buttom}>
             <Text style={styles.buttomtext}>
                 sair
             </Text>
@@ -99,7 +100,7 @@ const mapStateProps = ({user}:{user:any}) => {
 }
 const mapDispatchProps = (dispatch:Dispatch) => {
     return {
-      onLogin : () => dispatch(logout())
+      onLogout : () => dispatch(logout())
     }
 }
 export default connect(mapStateProps, mapDispatchProps)(Profile)

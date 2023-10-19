@@ -10,18 +10,41 @@ import {
   TextInput
 } from 'react-native';
 import { Icon } from '@rneui/themed';
+import { connect } from 'react-redux';
+import { addComment } from '../store/action/posts';
+import { Dispatch } from 'redux';
+interface CommentPayload {
+  postID: number;
+  comment:{
+    nickname:string,
+    comment?: string}
+  // outras propriedades necessárias
+}
+interface Propscomment{
+  name?:string,
+  postID:number,
+  onAddComment?: (data: CommentPayload) => void;
 
+}
 
-
-
-export default class AddComp extends React.Component{
+ class AddComp extends React.Component<Propscomment>{
   state={
     comment:'',
     editmode:false
   }
-  handlraddComment =()=> {
-    Alert.alert('adcionar!', this.state.comment)
-  }
+  handlraddComment = () => {
+    if (this.props.onAddComment) { 
+      this.props.onAddComment({
+        postID: this.props.postID,
+        comment: {
+          nickname: this.props.name ?this.props.name:'Anonymous',
+          comment: this.state.comment?this.state.comment:'nem comento'
+        }
+      });
+      this.setState({comment:'',editmode:false})
+    }
+  };
+
   render() {
     let commentArea=null;
     if(this.state.editmode){
@@ -80,4 +103,15 @@ const styles = StyleSheet.create({
   },
   
 });
-
+const mapStateToProps = ({user}:{user:any}) => {
+  return {
+      
+      name : user.name
+  }
+}
+const mapDispatchToProps = (dispatch:Dispatch) => {
+  return {
+    onAddComment : (payload:any) => dispatch(addComment(payload))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddComp)

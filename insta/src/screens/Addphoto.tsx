@@ -20,6 +20,8 @@ import { addPost } from '../store/action/posts';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 ///////////////////////////////////////////////////////////////////
+const noUser ='Você precisa estar logado para adicionar imagens'
+///////////////////////////////////////////////////////////////////
  class Addphoto extends React.Component<any>{
     state = {
         image:require('../assets/imgs/suaimagem.jpg'),
@@ -28,10 +30,12 @@ import { Dispatch } from 'redux';
    
     pickImage = async () => {
 
+        
         await launchImageLibrary({
             mediaType: 'photo',
             maxHeight: 600,
             maxWidth: 800,
+            includeBase64: true
             
         }, res => {
             if (res && !res.didCancel && res.assets && res.assets.length > 0) {
@@ -41,12 +45,14 @@ import { Dispatch } from 'redux';
         })
     }
     pickImagecamera = async () => {
-    
+        
+      
         await launchCamera({
             mediaType: 'photo',
             saveToPhotos:false,
             cameraType:'front',
             quality:1,
+            includeBase64: true
             
         }, res => {
             
@@ -59,6 +65,10 @@ import { Dispatch } from 'redux';
         })
     }
   Al = () => {
+    if (!this.props.name)  {
+      Alert.alert('Falha!', noUser)
+      return
+    }
       Alert.alert('Escolha', 'Escolha a Origem imagem', [
         {
           text:'Arquivo',
@@ -72,6 +82,10 @@ import { Dispatch } from 'redux';
     }
 
   save = async () => {
+    if (!this.props.name)  {
+      Alert.alert('Falha!', noUser)
+      return
+    } 
     this.props.onAddPost({
        id:Math.random(),
        nickname: this.props.name,
@@ -82,6 +96,8 @@ import { Dispatch } from 'redux';
           comment : this.state.comment
        }]
     })
+    console.warn(this.state.image.base64);
+
     this.setState({
       image:require('../assets/imgs/suaimagem.jpg'),
       comment:''
@@ -99,7 +115,7 @@ import { Dispatch } from 'redux';
                     <Text style={styles.buttomtext}>Escolha a photo</Text>
                 </TouchableOpacity>
                 <TextInput placeholder='Algum comentário' style={styles.input} value={this.state.comment}
-                onChangeText={comment => this.setState({comment})}
+                onChangeText={comment => this.setState({comment})} editable={this.props.name?true:false}
                 />
                 <TouchableOpacity onPress={this.save} style={styles.buttom}>
                     <Text style={styles.buttomtext}>Salvar</Text>

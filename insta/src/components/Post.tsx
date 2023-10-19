@@ -10,7 +10,7 @@ import {
 import Author from './Author'
 import Comments from './Comments';
 import Addcoment from './AddComments'
-
+import { connect } from 'react-redux';
 interface Comment {
     nickname: string;
     comment: string;
@@ -22,18 +22,21 @@ interface Comment {
     email:string
     image: any;
     comments: Comment[];
+    name?:string
   }
   
-export default class Post extends React.Component<PostProps>{
+ class Post extends React.Component<PostProps>{
   
 
 
-  render() {return(
+  render() {
+    const addComment = this.props.name?<Addcoment postID={this.props.id} />:null
+    return(
     <SafeAreaView style={styles.container}>
         <Image source={this.props.image} style={styles.image}/>
         <Author nickname={this.props.nickname} email={this.props.email} />
         <Comments comments={this.props.comments}/>
-        <Addcoment/>
+        {addComment}
     </SafeAreaView>
   );}
 }
@@ -50,3 +53,10 @@ const styles = StyleSheet.create({
 
 });
 
+const mapStateToProps = ({user}:{user:any}) => {
+  return {
+      
+      name : user.name
+  }
+}
+export default connect(mapStateToProps)(Post)

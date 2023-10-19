@@ -1,4 +1,4 @@
-import { ADD_POST } from "../action/actionTypes";
+import { ADD_COMMENT, ADD_POST } from "../action/actionTypes";
 
 interface actions {
     type :string,
@@ -36,6 +36,23 @@ const initialState = {
                 ...state,
                 posts : state.posts.concat({...action.payload})
             }
+        case ADD_COMMENT: {
+            return{
+                ...state,
+                posts: state.posts.map(post => {
+                    if(post.id === action.payload.postID){
+                        if(post.comments){
+                            post.comments=post.comments.concat(
+                                action.payload.comment
+                            )
+                        }else { 
+                            post.comments=[action.payload.comment]
+                        }
+                    }
+                    return post
+                })
+            }
+        }
         default :
             return state
     }
