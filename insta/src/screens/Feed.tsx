@@ -13,8 +13,12 @@ import {
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Post from '../components/Post';
+import { fetchPosts } from '../store/action/posts';
+
  class Feed extends React.Component<any>{
-    
+    componentDidMount = () => {
+        this.props.onFetchPosts()
+    }
     
 
   render() {return(
@@ -45,5 +49,10 @@ const mapStateToProps = ({posts}: {posts:any}) => {
     posts:posts.posts
   }
 }
-
-export default connect(mapStateToProps)(Feed)
+const mapDispatchToProps = (dispatch:any) => { 
+  return{
+  onFetchPosts: () => dispatch(fetchPosts())
+  }
+ 
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Feed)

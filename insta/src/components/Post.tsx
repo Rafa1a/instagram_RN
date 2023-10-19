@@ -33,7 +33,7 @@ interface Comment {
     const addComment = this.props.name?<Addcoment postID={this.props.id} />:null
     return(
     <SafeAreaView style={styles.container}>
-        <Image source={this.props.image} style={styles.image}/>
+        <Image source={{uri: this.props.image}} style={styles.image}/>
         <Author nickname={this.props.nickname} email={this.props.email} />
         <Comments comments={this.props.comments}/>
         {addComment}

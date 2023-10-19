@@ -27,7 +27,16 @@ const noUser ='Você precisa estar logado para adicionar imagens'
         image:require('../assets/imgs/suaimagem.jpg'),
         comment:''
     }
-   
+    componentDidUpdate = (prevProps:any) => {
+      console.log(prevProps)
+        if(prevProps.loading && !this.props.loading){
+          this.setState({
+            image:require('../assets/imgs/suaimagem.jpg'),
+            comment:''
+          })
+          this.props.navigation.navigate('Feed')
+        }
+    }
     pickImage = async () => {
 
         
@@ -96,13 +105,8 @@ const noUser ='Você precisa estar logado para adicionar imagens'
           comment : this.state.comment
        }]
     })
-    console.warn(this.state.image.base64);
+    
 
-    this.setState({
-      image:require('../assets/imgs/suaimagem.jpg'),
-      comment:''
-    })
-    this.props.navigation.navigate('Feed')
   }
     render() {return(
         <ScrollView >
@@ -117,7 +121,8 @@ const noUser ='Você precisa estar logado para adicionar imagens'
                 <TextInput placeholder='Algum comentário' style={styles.input} value={this.state.comment}
                 onChangeText={comment => this.setState({comment})} editable={this.props.name?true:false}
                 />
-                <TouchableOpacity onPress={this.save} style={styles.buttom}>
+                <TouchableOpacity onPress={this.save} style={[styles.buttom,this.props.loading?styles.buttonDisabled:null]}
+                disabled={this.props.loading}>
                     <Text style={styles.buttomtext}>Salvar</Text>
             </TouchableOpacity>
             </View>
@@ -159,13 +164,17 @@ const styles = StyleSheet.create({
   input:{
     marginTop:20,
     width:'90%'
+  },
+  buttonDisabled:{
+    backgroundColor:'#aaa'
   }
 });
 
-const mapStateToProps = ({user}: {user:any}) => {
+const mapStateToProps = ({user,posts}: {user:any,posts:any}) => {
   return{
     email:user.email,
-    name: user.name
+    name: user.name,
+    loading:posts.isUploading
   }
 }
 
