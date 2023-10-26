@@ -20,6 +20,7 @@ interface ProfileProps {
   onLogin: (user: any) => void;
   loginsaida?: Boolean;
   navigation: NavigationProp<any,any>;
+  isLoading:boolean
 }
 ////////////////////////////////////////////////////////////////////
 
@@ -30,10 +31,17 @@ interface ProfileProps {
     email:'',
     password:''
   }
+  componentDidUpdate = (prevProps:any) =>{
+    if(prevProps.isLoading && !this.props.isLoading){
+      
+      this.props.Profile_Login(true);
+    }
+  }
+  
   login = () => {
     // this.props.navigation.navigate('Profile')
     this.props.onLogin({...this.state})
-    this.props.Profile_Login(true);
+    
   }
   Registro = () => {
     this.props.navigation.navigate('Registro')
@@ -86,5 +94,10 @@ const mapDispatchProps = (dispatch:Dispatch) => {
     onLogin : (user:any) => dispatch(login(user))
   }
 }
+const mapStateProps = ({user}:{user:any}) => {
+  return {
+    isLoading:user.isLoading
+  }
+}
 ///////////////////////////////////////////////
-export default connect(null, mapDispatchProps)(Login)
+export default connect(mapStateProps, mapDispatchProps)(Login)

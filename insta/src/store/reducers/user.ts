@@ -1,7 +1,9 @@
-import { USER_LOGGED_IN,USER_LOGGED_OUT } from "../action/actionTypes";
+import { USER_LOGGED_IN,USER_LOGGED_OUT,LOADING_USER,USER_LOADED } from "../action/actionTypes";
 interface users {
     name :string,
-    email:string
+    email:string,
+    isLoading:boolean,
+    token:string
 }
 interface actions {
     type :string,
@@ -9,7 +11,9 @@ interface actions {
 }
 const initialState:users = {
     name :'',
-    email:''
+    email:'',
+    isLoading:false,
+    token:''
 }
 const reducer = (state = initialState, action:actions) => {
     switch(action.type) {
@@ -17,15 +21,25 @@ const reducer = (state = initialState, action:actions) => {
             return {
                 ...state,
                 name: action.payload.name,
-                email: action.payload.email
+                email: action.payload.email,
+                token:action.payload.token
             }
         case USER_LOGGED_OUT :
             return {
-                ...state,
-                name : '',
-                email:'',
+                ...initialState
                 
             }
+        case LOADING_USER : 
+            return{
+                ...state,
+                isLoading:true
+            }
+        case USER_LOADED : 
+        return{
+            ...state,
+            isLoading:false
+        }
+        
         default : 
             return state
     

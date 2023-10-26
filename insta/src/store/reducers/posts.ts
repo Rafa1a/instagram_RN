@@ -20,23 +20,23 @@ const initialState:any = {
                 ...state,
                 posts: action.payload
             }
-        case ADD_COMMENT: {
-            return{
-                ...state,
-                posts: state.posts.map((post:any) => {
-                    if(post.id === action.payload.postID){
-                        if(post.comments){
-                            post.comments=post.comments.concat(
-                                action.payload.comment
-                            )
-                        }else { 
-                            post.comments=[action.payload.comment]
-                        }
-                    }
-                    return post
-                })
-            }
-        }
+        // case ADD_COMMENT: {
+        //     return{
+        //         ...state,
+        //         posts: state.posts.map((post:any) => {
+        //             if(post.id === action.payload.postID){
+        //                 if(post.comments){
+        //                     post.comments=post.comments.concat(
+        //                         action.payload.comment
+        //                     )
+        //                 }else { 
+        //                     post.comments=[action.payload.comment]
+        //                 }
+        //             }
+        //             return post
+        //         })
+        //     }
+        // }
         case CREATING_POST : {
             return {
                 ...state,

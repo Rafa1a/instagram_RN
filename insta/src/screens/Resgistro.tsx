@@ -9,19 +9,28 @@ import {
   View,
 } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+//////////////////////////////////////////////////////
 interface StateInicial {
     name:string,
     email:string,
-    password:string
+    password:string,
+    
 }
-
-export default class App extends React.Component{
+import { connect } from 'react-redux';
+import { createUser } from '../store/action/users';
+/////////////////////////////////////////////////////////
+ class Register extends React.Component<any>{
     state: StateInicial={
         name:'',
         email:'',
         password:''
     }
-
+    componentDidUpdate=(p:any)=>{
+      if(!this.props.isLoading ){
+        this.props.navigation.navigate('Feed')
+      }
+      
+    }
   render() {return(
     <SafeAreaView style={styles.container}>
         <TextInput placeholder='Nome' style={styles.input} autoFocus value={this.state.name}
@@ -33,7 +42,9 @@ export default class App extends React.Component{
         <TextInput placeholder='Senha' style={styles.input}  value={this.state.password}
         onChangeText={password => this.setState({password})}
        secureTextEntry/> 
-        <TouchableOpacity onPress={()=>{}} style={styles.buttom}>
+        <TouchableOpacity onPress={()=>{
+          this.props.onCreateUser(this.state)
+          }} style={styles.buttom}>
             <Text style={styles.buttomtext}>Salvar</Text>
         </TouchableOpacity>
        
@@ -69,3 +80,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapDispatchToProps = (dispatch:any) =>{
+  return {
+    onCreateUser: (user:any) => dispatch(createUser(user))
+  }
+}
+const mapStateToProps = ({user}:{user:any}) =>{
+  return {
+    isLoading: user.isLoading
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Register)

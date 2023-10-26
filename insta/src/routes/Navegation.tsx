@@ -11,13 +11,20 @@ import Registro from '../screens/Resgistro'
 import { Dispatch } from "redux";
 import { logout } from "../store/action/users";
 import { connect } from "react-redux";
-
+import Splash from "../screens/Splash";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+const Splashtouter =  (props:any) => {
+
+
+}
+
 const FeedStack = (props:any) => {
   return (
-    <Stack.Navigator initialRouteName="TabMenu" >
+    <Stack.Navigator initialRouteName="Splash" >
+      
+      <Stack.Screen name="Splash" component={Splash} options={{headerShown:false}}/>
 
       <Stack.Screen name="TabMenu" component={MenuNavigator} {...props} options={{headerShown:false}}/>
       
