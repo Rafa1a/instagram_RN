@@ -12,7 +12,7 @@ export const addPost = (post:any) => {
             method:'post',
             data: {
                 image:post.image.base64
-            }
+            } 
         }).catch(err => console.log({error: err.code}))
             .then((resp:any) =>{
 
