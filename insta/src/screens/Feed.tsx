@@ -21,7 +21,9 @@ import { fetchPosts } from '../store/action/posts';
     }
     
 
-  render() {return(
+  render() {
+    
+    return(
     <SafeAreaView style={styles.container}>
         <Header />
         <FlatList 
