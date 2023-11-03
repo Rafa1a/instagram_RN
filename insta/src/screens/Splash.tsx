@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Image } from 'react-native-elements';
 
-
+//sada
 export default class Splash extends React.Component<any>{
   
     componentDidMount(): void {
