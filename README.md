@@ -1,5 +1,5 @@
 # Instagram Clone - React Native
-
+ 
 ## Aviso de Segurança:
 
 As credenciais do Firebase incluídas neste repositório não são válidas. O projeto original do Firebase foi excluído permanentemente, e, como resultado, essas credenciais não têm mais efeito e não permitem acesso a nenhum serviço ou dado.
